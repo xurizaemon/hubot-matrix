@@ -162,7 +162,7 @@ class Matrix extends Adapter {
                 that.client.setPresence("online");
                 let message = event.getContent();
                 let name = event.getSender();
-                let prettyname = room.currentState._userIdsToDisplayNames[name];
+                let prettyname = room.currentState.userIdsToDisplayNames[name];
                 let user = that.robot.brain.userForId(name, { name: prettyname });
                 user.room = room.roomId;
                 if (user.id !== that.user_id) {
