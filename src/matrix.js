@@ -11,7 +11,6 @@ try {
 }
 
 let sdk = require("matrix-js-sdk");
-global.Olm = require('olm');
 
 let request = require('request');
 let sizeOf = require('image-size');
