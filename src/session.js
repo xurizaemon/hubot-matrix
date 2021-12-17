@@ -1,7 +1,7 @@
 const sdk = require("matrix-js-sdk");
-  const {
-    LocalStorageCryptoStore,
-  } = require('matrix-js-sdk/lib/crypto/store/localStorage-crypto-store');
+const {
+  LocalStorageCryptoStore,
+} = require('matrix-js-sdk/lib/crypto/store/localStorage-crypto-store');
 
 
 class MatrixSession {
@@ -59,7 +59,7 @@ class MatrixSession {
         userId: data.user_id,
         deviceId: data.device_id,
         sessionStore: new sdk.WebStorageSessionStore(that.localStorage),
-        cryptoStore: new LocalStorageCryptoStore(localStorage)
+        cryptoStore: new LocalStorageCryptoStore(that.localStorage)
 
       });
 
