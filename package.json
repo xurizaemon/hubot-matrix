@@ -1,21 +1,50 @@
 {
-  "name": "hubot-matrix",
-  "version": "2.0.1",
-  "description": "Matrix adapter for Hubot",
-  "main": "src/matrix.js",
-  "scripts": {
-    "test": "node --check src/*.js"
+  "_from": "git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+  "_id": "hubot-matrix@2.0.1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/hubot-matrix",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "hubot-matrix@git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+    "name": "hubot-matrix",
+    "escapedName": "hubot-matrix",
+    "rawSpec": "git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+    "saveSpec": "git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+    "fetchSpec": "https://github.com/davidar/hubot-matrix.git",
+    "gitCommittish": "ab226464521150f60141f75e38800858574fdf80"
   },
-  "author": "David A Roberts",
-  "license": "MIT",
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+  "_spec": "hubot-matrix@git+https://github.com/davidar/hubot-matrix.git#ab226464521150f60141f75e38800858574fdf80",
+  "_where": "/Users/juliaburgard/IntellijProjects/bot",
+  "author": {
+    "name": "David A Roberts"
+  },
+  "bundleDependencies": false,
   "dependencies": {
     "image-size": "^0.5.1",
-    "matrix-js-sdk": "^12.1.0",
+    "matrix-js-sdk": "^15.1.1",
     "node-localstorage": "^1.3.0",
     "parent-require": "^1.0.0",
     "request": "^2.79.0"
   },
+  "deprecated": false,
+  "description": "Matrix adapter for Hubot",
+  "license": "MIT",
+  "main": "src/matrix.js",
+  "name": "hubot-matrix",
   "peerDependencies": {
     "hubot": ">=3.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "version": "2.0.1",
+  "devDependencies": {
+    "jest": "^27.4.4"
   }
 }
