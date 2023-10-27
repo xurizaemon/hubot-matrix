@@ -33,7 +33,6 @@ class MatrixSession {
       accessToken: accessToken,
       userId: userId,
       deviceId: deviceId,
-      sessionStore: new sdk.WebStorageSessionStore(this.localStorage),
     });
 
     cb(null, this.client)
@@ -58,9 +57,7 @@ class MatrixSession {
         accessToken: data.access_token,
         userId: data.user_id,
         deviceId: data.device_id,
-        sessionStore: new sdk.WebStorageSessionStore(that.localStorage),
         cryptoStore: new LocalStorageCryptoStore(that.localStorage)
-
       });
 
       that.localStorage.setItem("access_token", data.access_token)
