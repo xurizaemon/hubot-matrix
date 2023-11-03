@@ -32,7 +32,7 @@ class MatrixSession {
       baseUrl: this.matrixServer || 'https://matrix.org',
       accessToken: accessToken,
       userId: userId,
-      deviceId: deviceId,
+      deviceId: deviceId
     });
 
     cb(null, this.client)
@@ -40,17 +40,13 @@ class MatrixSession {
 
   login(cb) {
     let that = this;
-    this.client = sdk.createClient(this.matrixServer || 'https://matrix.org');
+    this.client = sdk.createClient({
+      baseUrl: this.matrixServer || 'https://matrix.org'
+    });
     this.client.login('m.login.password', {
       user: this.matrixUser || this.botName,
       password: this.matrixPassword
-    }, async (err, data) => {
-
-      if (err) {
-        that.logger.error(err);
-        cb(err, null)
-      }
-
+    }).then((data) => {
       that.logger.info(`Logged in ${data.user_id} on device ${data.device_id}`);
       that.client = sdk.createClient({
         baseUrl: that.matrixServer || 'https://matrix.org',
@@ -65,6 +61,9 @@ class MatrixSession {
       that.localStorage.setItem("user_id", data.user_id)
       that.localStorage.setItem("device_id", data.device_id)
       cb(null, that.client)
+    }).catch((err) => {
+      that.logger.error(err);
+      cb(err, null)
     });
   }
 

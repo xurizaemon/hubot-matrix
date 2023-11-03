@@ -1,14 +1,4 @@
-let Adapter, localStorage, Robot, TextMessage, User;
-try {
-  ({Robot, Adapter, TextMessage, User} = require('hubot/es2015'));
-} catch (e) {
-  try {
-    ({Robot, Adapter, TextMessage, User} = require('hubot'));
-  } catch (error) {
-    let prequire = require('parent-require');
-    ({Robot, Adapter, TextMessage, User} = prequire('hubot'));
-  }
-}
+const { Robot, Adapter, TextMessage, User } = require.main.require('hubot/es2015');
 
 let sdk = require("matrix-js-sdk");
 
@@ -16,10 +6,12 @@ let request = require('request');
 let sizeOf = require('image-size');
 let MatrixSession = require('./session.js');
 
+let localStorage;
 if (localStorage == null) {
   let {LocalStorage} = require('node-localstorage');
   localStorage = new LocalStorage('./hubot-matrix.localStorage');
 }
+
 module.exports.use = (robot) => {
 
   let that;
@@ -34,12 +26,11 @@ module.exports.use = (robot) => {
       let that = this;
       return (() => {
         let result = [];
-        for (var stranger in err.devices) {
-          var devices = err.devices[stranger];
+        for (const stranger in err.devices) {
+          const devices = err.devices[stranger];
           result.push((() => {
             let result1 = [];
             for (let device in devices) {
-              let _ = devices[device];
               that.robot.logger.info(`Acknowledging ${stranger}'s device ${device}`);
               result1.push(that.robot.matrixClient.setDeviceKnown(stranger, device));
             }
@@ -53,7 +44,7 @@ module.exports.use = (robot) => {
     send(envelope, ...strings) {
       return (() => {
         let result = [];
-        for (var str of Array.from(strings)) {
+        for (const str of Array.from(strings)) {
           that.robot.logger.info(`Sending to ${envelope.room}: ${str}`);
           if (/^(f|ht)tps?:\/\//i.test(str)) {
             result.push(that.sendURL(envelope, str));
@@ -108,14 +99,12 @@ module.exports.use = (robot) => {
             info = {mimetype: `image/${dims.type}`, h: dims.height, w: dims.width, size: body.length};
             return that.robot.matrixClient.uploadContent(body, {
               name: url,
-              type: info.mimetype,
-              rawResponse: false,
-              onlyContentUri: true
-            }).done(content_uri => {
-              return that.robot.matrixClient.sendImageMessage(envelope.room, content_uri, info, url).catch(err => {
+              type: info.mimetype
+            }).then(response => {
+              return that.robot.matrixClient.sendImageMessage(envelope.room, response.content_uri, info, url).catch(err => {
                 if (err.name === 'UnknownDeviceError') {
                   that.handleUnknownDevices(err);
-                  return that.robot.matrixClient.sendImageMessage(envelope.room, content_uri, info, url);
+                  return that.robot.matrixClient.sendImageMessage(envelope.room, response.content_uri, info, url);
                 }
               });
             });
@@ -154,15 +143,14 @@ module.exports.use = (robot) => {
               const currentDisplayName = that.robot.matrixClient.getUser(userId).displayName;
               if (that.robot.name !== currentDisplayName) {
                 that.robot.logger.info(`Setting display name to ${that.robot.name}`);
-                that.robot.matrixClient.setDisplayName(that.robot.name, () => {
-                });
+                that.robot.matrixClient.setDisplayName(that.robot.name);
               }
               return that.emit('connected');
           }
         });
         that.robot.matrixClient.on('Room.timeline', (event, room, toStartOfTimeline) => {
           if ((event.getType() === 'm.room.message') && (toStartOfTimeline === false)) {
-            that.robot.matrixClient.setPresence("online");
+            that.robot.matrixClient.setPresence({ presence: "online" });
             let message = event.getContent();
             let name = event.getSender();
             let user = that.robot.brain.userForId(name);
@@ -182,7 +170,7 @@ module.exports.use = (robot) => {
         that.robot.matrixClient.on('RoomMember.membership', (event, member) => {
           let userId = that.robot.matrixClient.getUserId();
           if ((member.membership === 'invite') && (member.userId === userId)) {
-            return that.robot.matrixClient.joinRoom(member.roomId).done(() => {
+            return that.robot.matrixClient.joinRoom(member.roomId).then(() => {
               return that.robot.logger.info(`Auto-joined ${member.roomId}`);
             });
           }
