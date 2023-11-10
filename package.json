@@ -6,7 +6,7 @@
   "main": "src/matrix.js",
   "dependencies": {
     "image-size": "^1.0.2",
-    "matrix-js-sdk": "^29.1.0",
+    "matrix-js-sdk": "^30.0.0",
     "node-localstorage": "^3.0.5",
     "parent-require": "^1.0.0",
     "request": "^2.88.2"
