@@ -2,7 +2,7 @@ const sdk = require("matrix-js-sdk");
 const {
   LocalStorageCryptoStore,
 } = require('matrix-js-sdk/lib/crypto/store/localStorage-crypto-store');
-
+const Store = require('./store')
 
 class MatrixSession {
 
@@ -32,7 +32,8 @@ class MatrixSession {
       baseUrl: this.matrixServer || 'https://matrix.org',
       accessToken: accessToken,
       userId: userId,
-      deviceId: deviceId
+      deviceId: deviceId,
+      store: new Store(this.localStorage)
     });
 
     cb(null, this.client)
