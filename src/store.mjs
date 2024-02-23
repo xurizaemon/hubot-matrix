@@ -1,8 +1,6 @@
-const {
-    MemoryStore,
-} = require('matrix-js-sdk/lib/store/memory');
+import { MemoryStore } from 'matrix-js-sdk/lib/store/memory.js';
 
-class Store extends MemoryStore {
+export default class Store extends MemoryStore {
 
     constructor(localStorage) {
         super();
@@ -33,5 +31,3 @@ class Store extends MemoryStore {
         return this.saveDirty;
     }
 }
-
-module.exports = Store;

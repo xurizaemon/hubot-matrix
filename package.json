@@ -3,7 +3,7 @@
   "name": "hubot-matrix",
   "description": "Matrix adapter for Hubot",
   "license": "MIT",
-  "main": "src/matrix.js",
+  "main": "src/matrix.mjs",
   "dependencies": {
     "image-size": "^1.0.2",
     "matrix-js-sdk": "^30.0.0",
@@ -12,10 +12,11 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "jest": "^29.7.0"
   },
   "peerDependencies": {
-    "hubot": ">=9.0"
+    "hubot": "^11.1.1"
   },
   "scripts": {
     "test": "jest"

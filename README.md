@@ -21,3 +21,11 @@ Set the following variables:
 * `HUBOT_MATRIX_HOST_SERVER` - the Matrix server to connect to (default is `https://matrix.org` if unset)
 * `HUBOT_MATRIX_USER` - bot login on the Matrix server - eg `@examplebotname:matrix.example.org`
 * `HUBOT_MATRIX_PASSWORD` - bot password on the Matrix server
+
+## Tests
+
+Since jest only runs mjs tests with experimental-vm-modules you need to set them when running the tests...
+
+```shell
+NODE_OPTIONS="$NODE_OPTIONS --experimental-vm-modules" npm run test
+```
