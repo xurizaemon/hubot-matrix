@@ -31,7 +31,8 @@ export default class MatrixSession {
       accessToken: accessToken,
       userId: userId,
       deviceId: deviceId,
-      store: new Store(this.localStorage)
+      store: new Store(this.localStorage),
+      logger: this.logger
     });
 
     cb(null, this.client)
@@ -52,7 +53,8 @@ export default class MatrixSession {
         accessToken: data.access_token,
         userId: data.user_id,
         deviceId: data.device_id,
-        cryptoStore: new LocalStorageCryptoStore(that.localStorage)
+        cryptoStore: new LocalStorageCryptoStore(that.localStorage),
+        logger: this.logger
       });
 
       that.localStorage.setItem("access_token", data.access_token)
