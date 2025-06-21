@@ -37,8 +37,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '22.x'
-    - name: NPM CI
-      run: npm ci
+    - name: NPM install
+      run: npm install
     - name: NPM link
       run: npm link
     - name: Configure env vars
