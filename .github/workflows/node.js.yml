@@ -13,10 +13,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [18.x, 20.x, 22.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -24,6 +25,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+    - name: NPM CI
+      run: npm ci
+    - name: NPM run build
+      run: npm run build --if-present
+    - name: Unit tests
+      run: npm run test:unit
+    - name: Integration Tests
+      if: ${{ github.event_name == 'pull_request' }}
+      env:
+        TEST_MATRIX_USER: ${{ secrets.TEST_MATRIX_USER }}
+        TEST_MATRIX_PASSWORD: ${{ secrets.TEST_MATRIX_PASSWORD }}
+        TEST_MATRIX_ROOM: ${{ secrets.TEST_MATRIX_ROOM }}
+        TEST_MATRIX_URL: ${{ secrets.TEST_MATRIX_URL }}
+        TEST_ROOM_ID: ${{ secrets.TEST_ROOM_ID }}
+      run: npm run test:integration
