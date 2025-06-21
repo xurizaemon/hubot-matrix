@@ -1,1 +1,8 @@
+.env
+.hubot_history
+*.iml
+.idea
 node_modules
+# Local storage may be created.
+hubot-matrix.localStorage
+integration-test.localStorage
