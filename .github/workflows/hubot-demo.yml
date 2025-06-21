@@ -1,0 +1,87 @@
+# This workflow will create a new Hubot, install dependencies, and connect to a Matrix server.
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Hubot demo (e2e)
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    env:
+      HUBOT_ADAPTER: 'hubot-matrix'
+      HUBOT_FAREWELL_ENABLED: true
+      HUBOT_FAREWELL_MESSAGE: "Goodbye from GHA Hubot demo"
+      HUBOT_FAREWELL_TARGET: ${{ secrets.TEST_MATRIX_ROOM }}
+      HUBOT_FAREWELL_TIMEIN: 5000
+      HUBOT_FAREWELL_TIMEOUT: 30000
+      # HUBOT_LOG_LEVEL: debug
+      HUBOT_NAME: 'HubotMatrixTest'
+      HUBOT_MATRIX_HOST: ${{ secrets.TEST_MATRIX_URL }}
+      HUBOT_MATRIX_PASSWORD: ${{ secrets.TEST_MATRIX_PASSWORD }}
+      HUBOT_MATRIX_USER: ${{ secrets.TEST_MATRIX_USER }}
+      HUBOT_STARTUP_MESSAGE: "Hello from GHA Hubot demo"
+      HUBOT_STARTUP_ROOM: ${{ secrets.TEST_MATRIX_ROOM }}
+      # LOG_LEVEL: debug
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js v22
+      uses: actions/setup-node@v1
+      with:
+        node-version: '22.x'
+    - name: Configure env vars
+      run: |
+        # echo "HUBOT_NAME=Github E2E $GITHUB_RUN_ID" >> $GITHUB_ENV
+        echo "GHA_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_ENV
+    - name: NPM CI
+      run: npm ci
+    - name: NPM link
+      run: npm link
+    - name: Configure env vars
+      run: |
+        echo "ADAPTER_DIR=$( pwd )" >> $GITHUB_ENV
+        echo "HUBOT_DIR=$( pwd )/node_modules/hubot" >> $GITHUB_ENV
+        echo "HUBOT_ROOT=$( mktemp -d )" >> $GITHUB_ENV
+    - name: Create and configure Hubot instance
+      run: |
+        npx hubot --create $HUBOT_ROOT
+        cd $HUBOT_ROOT
+        mkdir -p configuration src/scripts # silence warnings
+        echo "Creating Hubot for this adapter in $TEMP_ROOT and installing Hubot from $HUBOT_DIR"
+        npm install --save github:xurizaemon/hubot-matrix#update-esm github:xurizaemon/hubot-farewell github:xurizaemon/hubot-startup
+        npm show matrix-js-sdk
+        echo '["@xurizaemon/hubot-farewell", "@xurizaemon/hubot-startup"]' > external-scripts.json
+        echo "PATH=$PATH:$( pwd )/node_modules/.bin" >> $GITHUB_ENV
+        echo "HUBOT_INSTALLATION_PATH=$TEMP_ROOT" >> $GITHUB_ENV
+        echo "NODE_PATH=$TEMP_ROOT/node_modules" >> $GITHUB_ENV
+        echo "PATH=$PATH:$TEMP_ROOT/node_modules/.bin" >> $GITHUB_ENV
+        cat package.json
+    - name: Start Hubot, let plugins say hello & goodbye
+      run: |
+        cd $HUBOT_ROOT
+        echo "First run, initialise local storage"
+        PATH=$PATH:$( pwd )/node_modules/.bin
+        echo
+        echo "Second run"
+        # Log in and save creds to local storage, then exit.
+        HUBOT_FAREWELL_TIMEOUT=15000 hubot
+        # Reconnect with saved creds from local storage.
+        hubot
+
+    - name: Preserve artifacts
+      run: |
+        mkdir tmp
+        cp -v $HUBOT_ROOT/package-lock.json tmp/
+    - name: Upload package-lock.json
+      uses: actions/upload-artifact@v4
+      with:
+        name: package-lock-json
+        path: tmp/package-lock.json
