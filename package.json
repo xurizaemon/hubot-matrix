@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "name": "hubot-matrix",
+  "name": "@xurizaemon/hubot-matrix",
   "description": "Matrix adapter for Hubot",
   "license": "MIT",
   "main": "src/matrix.mjs",
@@ -9,7 +9,6 @@
     "image-size": "^1.0.2",
     "matrix-js-sdk": "^37.4.0",
     "node-localstorage": "^3.0.5",
-    "parent-require": "^1.0.0",
     "request": "^2.88.2"
   },
   "devDependencies": {
