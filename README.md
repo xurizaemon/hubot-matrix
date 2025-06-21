@@ -30,8 +30,12 @@ To run tests in Github Actions, the following **Github Secrets** should be confi
 | `TEST_MATRIX_USER`     | `@someuser:example.org`          | Username                  |
 | `TEST_MATRIX_PASSWORD` | `********`                       | Password                  |
 
-There are environment variables which the tests need set to execute also. In Github Actions,
-these variables are set in the Github workflow configuration (`.github/workflows/*.yml`).
+See `.github/workflows/*.yml` and test code for reference usage.
+
+### Hubot demo (e2e) test
+
+[hubot-demo](.github/workflows/hubot-demo.yml) creates a fresh Hubot instance and connects to Matrix 
+using creds provided from the secrets above to configure the Hubot instance.
 
 | Name                    | Example                          | Description                |
 |-------------------------|----------------------------------|----------------------------|
@@ -41,6 +45,7 @@ these variables are set in the Github workflow configuration (`.github/workflows
 | `HUBOT_FAREWELL_*`      | Configure `hubot-farewell`[^1]   | Configure shutdown message |
 | `HUBOT_STARTUP_*`       | Configure `hubot-startup`[^2]    | Configure startup message  |
 
+### Jest
 Jest requires the experimental-vm-modules Node option to run .mjs tests:
 
 ```shell
