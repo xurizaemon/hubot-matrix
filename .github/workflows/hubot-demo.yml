@@ -59,13 +59,6 @@ jobs:
     - name: Start Hubot, let plugins say hello & goodbye
       run: |
         cd $HUBOT_ROOT
-        echo "First run, initialise local storage"
-        PATH=$PATH:$( pwd )/node_modules/.bin
-        echo
-        echo "Second run"
-        # Log in and save creds to local storage, then exit.
-        HUBOT_FAREWELL_TIMEOUT=15000 hubot
-        # Reconnect with saved creds from local storage.
         hubot
 
     - name: Preserve artifacts
