@@ -6,6 +6,7 @@ import request from 'request'
 import sizeOf from 'image-size'
 import MatrixSession from './session.mjs'
 import { LocalStorage } from 'node-localstorage'
+import '@matrix-org/olm'
 
 let localStorage
 if (localStorage == null) {
@@ -153,6 +154,14 @@ export default {
             return
           }
           that.robot.matrixClient = client
+
+          try {
+            await that.robot.matrixClient.initCrypto()
+            that.robot.logger.info('End-to-end encryption initialized successfully')
+          } catch (cryptoError) {
+            that.robot.logger.error(`Failed to initialize encryption: ${cryptoError.message}`)
+          }
+
           that.robot.matrixClient.on('sync', (state, prevState, data) => {
             switch (state) {
               case 'PREPARED':
