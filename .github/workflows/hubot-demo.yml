@@ -37,10 +37,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '22.x'
-    - name: Configure env vars
-      run: |
-        # echo "HUBOT_NAME=Github E2E $GITHUB_RUN_ID" >> $GITHUB_ENV
-        echo "GHA_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_ENV
     - name: NPM CI
       run: npm ci
     - name: NPM link
@@ -55,15 +51,11 @@ jobs:
         npx hubot --create $HUBOT_ROOT
         cd $HUBOT_ROOT
         mkdir -p configuration src/scripts # silence warnings
-        echo "Creating Hubot for this adapter in $TEMP_ROOT and installing Hubot from $HUBOT_DIR"
-        npm install --save github:xurizaemon/hubot-matrix#update-esm github:xurizaemon/hubot-farewell github:xurizaemon/hubot-startup
-        npm show matrix-js-sdk
+        echo "Creating Hubot for this adapter in $HUBOT_ROOT and installing Hubot from $HUBOT_DIR"
+        npm install --save $ADAPTER_DIR
+        npm install --save github:xurizaemon/hubot-farewell github:xurizaemon/hubot-startup
         echo '["@xurizaemon/hubot-farewell", "@xurizaemon/hubot-startup"]' > external-scripts.json
         echo "PATH=$PATH:$( pwd )/node_modules/.bin" >> $GITHUB_ENV
-        echo "HUBOT_INSTALLATION_PATH=$TEMP_ROOT" >> $GITHUB_ENV
-        echo "NODE_PATH=$TEMP_ROOT/node_modules" >> $GITHUB_ENV
-        echo "PATH=$PATH:$TEMP_ROOT/node_modules/.bin" >> $GITHUB_ENV
-        cat package.json
     - name: Start Hubot, let plugins say hello & goodbye
       run: |
         cd $HUBOT_ROOT
