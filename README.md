@@ -47,6 +47,16 @@ Jest requires the experimental-vm-modules Node option to run .mjs tests:
 NODE_OPTIONS="$NODE_OPTIONS --experimental-vm-modules" npm run test
 ```
 
+## Releasing
+
+Will this work? We have an NPM and GPR publish workflow lol.
+
+1. Update version in package.json (and package-lock.json)
+2. Commit these changes
+3. Create a Git tag matching the version
+4. Push commits and tags
+5. Create a GitHub release based on the tag (which will trigger your workflow)
+
 [^1]: https://github.com/xurizaemon/hubot-farewell/
 
 [^2]: https://github.com/xurizaemon/hubot-startup/
