@@ -26,9 +26,9 @@ To run tests in Github Actions, the following **Github Secrets** should be confi
 | Name                   | Example                          | Description               |
 |------------------------|----------------------------------|---------------------------|
 | `TEST_MATRIX_URL`      | https://matrix-client.matrix.org | Home instance URL         |
-| `TEST_MATRIX_ROOM`     | `!something@example.org`         | Room ID (where to get it) |
-| `TEST_MATRIX_USER`     | @someuser:example.org            | Username                  |
-| `TEST_MATRIX_PASSWORD` | ****                             | Password                  |
+| `TEST_MATRIX_ROOM`     | `!something:example.org`         | Room ID (where to get it) |
+| `TEST_MATRIX_USER`     | `@someuser:example.org`          | Username                  |
+| `TEST_MATRIX_PASSWORD` | `********`                       | Password                  |
 
 There are environment variables which the tests need set to execute also. In Github Actions,
 these variables are set in the Github workflow configuration (`.github/workflows/*.yml`).
