@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
+      max-parallel: 1
 
     steps:
     - uses: actions/checkout@v2
@@ -34,6 +35,7 @@ jobs:
     - name: Integration Tests
       if: ${{ github.event_name == 'pull_request' }}
       env:
+        TEST_BOT_NAME: GHA_IntegrationTest_${{ github.run_id }}
         TEST_MATRIX_USER: ${{ secrets.TEST_MATRIX_USER }}
         TEST_MATRIX_PASSWORD: ${{ secrets.TEST_MATRIX_PASSWORD }}
         TEST_MATRIX_ROOM: ${{ secrets.TEST_MATRIX_ROOM }}

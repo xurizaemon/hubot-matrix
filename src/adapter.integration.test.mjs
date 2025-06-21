@@ -23,6 +23,7 @@ describe('Matrix Adapter Integration Tests', () => {
 
     process.env.HUBOT_MATRIX_HOST_SERVER = TEST_MATRIX_URL
     process.env.HUBOT_MATRIX_USER = TEST_MATRIX_USER
+    process.env.HUBOT_NAME = TEST_BOT_NAME
     process.env.HUBOT_MATRIX_PASSWORD = TEST_MATRIX_PASSWORD
 
     // Create test robot

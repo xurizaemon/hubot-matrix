@@ -21,15 +21,15 @@ jobs:
       HUBOT_FAREWELL_MESSAGE: "Goodbye from GHA Hubot demo"
       HUBOT_FAREWELL_TARGET: ${{ secrets.TEST_MATRIX_ROOM }}
       HUBOT_FAREWELL_TIMEIN: 5000
-      HUBOT_FAREWELL_TIMEOUT: 30000
-      # HUBOT_LOG_LEVEL: debug
-      HUBOT_NAME: 'HubotMatrixTest'
+      HUBOT_FAREWELL_TIMEOUT: 60000
+      HUBOT_LOG_LEVEL: debug
+      HUBOT_NAME: GHA_HubotDemo_${{ github.run_id }}
       HUBOT_MATRIX_HOST: ${{ secrets.TEST_MATRIX_URL }}
       HUBOT_MATRIX_PASSWORD: ${{ secrets.TEST_MATRIX_PASSWORD }}
       HUBOT_MATRIX_USER: ${{ secrets.TEST_MATRIX_USER }}
       HUBOT_STARTUP_MESSAGE: "Hello from GHA Hubot demo"
       HUBOT_STARTUP_ROOM: ${{ secrets.TEST_MATRIX_ROOM }}
-      # LOG_LEVEL: debug
+      LOG_LEVEL: debug
 
     steps:
     - uses: actions/checkout@v2
@@ -56,7 +56,6 @@ jobs:
         npm install --save github:xurizaemon/hubot-farewell github:xurizaemon/hubot-startup
         echo '["@xurizaemon/hubot-farewell", "@xurizaemon/hubot-startup"]' > external-scripts.json
         echo "PATH=$PATH:$( pwd )/node_modules/.bin" >> $GITHUB_ENV
-        ls -lAF node_modules/
     - name: Start Hubot, let plugins say hello & goodbye
       run: |
         cd $HUBOT_ROOT
