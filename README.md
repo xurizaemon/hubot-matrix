@@ -14,7 +14,7 @@ Use the following adapter based on your Hubot version (`npm list hubot`).
 
 Set the following variables:
 
-* `HUBOT_ADAPTER` should be `hubot-matrix`
+* `HUBOT_ADAPTER` should be `@xurizaemon/hubot-matrix`
 * `HUBOT_MATRIX_HOST_SERVER` - the Matrix server to connect to (default is `https://matrix.org` if unset)
 * `HUBOT_MATRIX_USER` - bot login on the Matrix server - eg `@examplebotname:matrix.example.org`
 * `HUBOT_MATRIX_PASSWORD` - bot password on the Matrix server
