@@ -2,7 +2,7 @@
   "testMatch": [
     "**/*.test.mjs"
   ],
-  "testTimeout": 30000,
+  "testTimeout": 10000,
   "detectOpenHandles": true,
   "setupFiles": [
     "./jest-setup.js"
