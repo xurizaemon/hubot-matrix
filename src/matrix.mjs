@@ -73,7 +73,8 @@ export default {
                   that.handleUnknownDevices(error)
                   return that.robot.matrixClient.sendNotice(envelope.room, str)
                 }
-                console.error(error, 'error')
+                console.error(error.name, error)
+                throw error
               }))
             }
           }
