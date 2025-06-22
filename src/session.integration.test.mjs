@@ -110,7 +110,7 @@ describe('Matrix Session Integration Tests', () => {
       // Clear the timeout to prevent open handles
       if (timeoutId) clearTimeout(timeoutId)
     }
-  }, 30000)
+  }, 10000)
 
   test('should sync rooms with the server', async () => {
     if (!runIntegrationTests) return
@@ -125,7 +125,7 @@ describe('Matrix Session Integration Tests', () => {
         console.warn('Sync timeout - continuing test anyway')
         matrixClient.removeListener('sync', onSync)
         resolve()
-      }, 25000)
+      }, 10000)
 
       const onSync = (state) => {
         console.log(`Sync state: ${state}`)
@@ -154,5 +154,5 @@ describe('Matrix Session Integration Tests', () => {
     await syncPromise
 
     expect(matrixClient).toBeDefined()
-  }, 60000) // Allow 60s for network operations.
+  }, 10000) // Allow 60s for network operations.
 })

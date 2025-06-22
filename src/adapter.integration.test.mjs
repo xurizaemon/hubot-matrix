@@ -62,7 +62,7 @@ describe('Matrix Adapter Integration Tests', () => {
 
     // Run the adapter
     adapter.run()
-  }, 30000)
+  }, 10000)
 
   test('should send a message to a room', async () => {
     if (!runIntegrationTests) return
@@ -91,5 +91,5 @@ describe('Matrix Adapter Integration Tests', () => {
         reject(error)
       }
     })
-  }, 30000)
+  }, 10000)
 })
