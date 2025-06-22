@@ -31,7 +31,8 @@ export default {
           this.robot.matrixClient.setPresence({ presence: 'online' })
             .catch(error => {
               if (error.errcode === 'M_LIMIT_EXCEEDED') {
-                this.robot.logger.warn(`Rate limited when setting presence. Retry after: ${error.retry_after_ms}ms`)
+                const waitMs = error.retry_after_ms || 10000
+                this.robot.logger.warn(`Rate limited when setting presence. Retry after: ${waitMs}ms`)
               } else {
                 this.robot.logger.warn(`Error ${error.errcode} setting presence: ${error.message}`)
               }
