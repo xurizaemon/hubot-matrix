@@ -158,16 +158,34 @@ export default {
           that.robot.matrixClient = client
 
           try {
-            await that.robot.matrixClient.initCrypto()
+            // https://matrix-org.github.io/matrix-js-sdk/classes/matrix.MatrixClient.html#initrustcrypto
+            await that.robot.matrixClient.initRustCrypto({ useIndexedDB: false })
             that.robot.logger.info('End-to-end encryption initialized successfully')
+
+            // Wait for crypto to be fully ready
+            await new Promise((resolve) => {
+              const checkCryptoReady = () => {
+                if (that.robot.matrixClient.isCryptoEnabled()) {
+                  that.robot.logger.debug('Crypto is ready, proceeding with client start')
+                  resolve()
+                } else {
+                  that.robot.logger.debug('Waiting for crypto to be ready...')
+                  setTimeout(checkCryptoReady, 100)
+                }
+              }
+              checkCryptoReady()
+            })
+
           } catch (cryptoError) {
             that.robot.logger.error(`Failed to initialize encryption: ${cryptoError.message}`)
           }
 
+          // Set up event handlers
           that.robot.matrixClient.on('sync', (state, prevState, data) => {
             switch (state) {
               case 'PREPARED':
                 that.robot.logger.info(`Synced ${that.robot.matrixClient.getRooms().length} rooms`)
+                that.robot.logger.debug(`Crypto enabled: ${that.robot.matrixClient.isCryptoEnabled()}`)
 
                 // We really don't want to let people set the display name to something other than the bot
                 // name because the bot only reacts to its own name.
@@ -181,6 +199,7 @@ export default {
                 return that.emit('connected')
             }
           })
+
           that.robot.matrixClient.on('Room.timeline', (event, room, toStartOfTimeline) => {
             if ((event.getType() === 'm.room.message') && (toStartOfTimeline === false)) {
               const message = event.getContent()
@@ -202,6 +221,7 @@ export default {
               }
             }
           })
+
           that.robot.matrixClient.on('RoomMember.membership', (event, member) => {
             const userId = that.robot.matrixClient.getUserId()
             if ((member.membership === 'invite') && (member.userId === userId)) {
@@ -210,6 +230,8 @@ export default {
               })
             }
           })
+
+          // Start client after crypto is ready
           return that.robot.matrixClient.startClient({
             initialSyncLimit: 0,
             presence: {

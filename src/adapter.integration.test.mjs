@@ -27,7 +27,7 @@ describe('Matrix Adapter Integration Tests', () => {
     process.env.HUBOT_MATRIX_PASSWORD = TEST_MATRIX_PASSWORD
 
     // Create test robot
-    robot = new Robot(null, 'mock-adapter', false, TEST_BOT_NAME)
+    robot = new Robot('mock-adapter', false, TEST_BOT_NAME)
 
     // Spy on robot methods
     robot.receive = jest.fn(robot.receive)
