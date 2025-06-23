@@ -28,9 +28,10 @@ export default class MatrixSession {
 
   createClient (cb) {
     const accessToken = this.localStorage.getItem('access_token')
-    const botName = this.localStorage.getItem('bot_name')
     const deviceId = this.localStorage.getItem('device_id')
     const userId = this.localStorage.getItem('user_id')
+    // Remove?
+    const botName = this.localStorage.getItem('bot_name')
 
     if (!accessToken || !botName || !deviceId || !userId) {
       this.logger.debug('Creating a new session: no authentication token can be found in local storage.')
@@ -63,9 +64,10 @@ export default class MatrixSession {
       that.logger.debug(`Logged in ${data.user_id} on device ${data.device_id}`)
 
       that.localStorage.setItem('access_token', data.access_token)
-      that.localStorage.setItem('bot_name', that.botName)
       that.localStorage.setItem('user_id', data.user_id)
       that.localStorage.setItem('device_id', data.device_id)
+      // Remove?
+      that.localStorage.setItem('bot_name', that.botName)
 
       // Re-initialise the client.
       that.client = sdk.createClient({
