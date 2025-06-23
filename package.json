@@ -6,6 +6,7 @@
   "main": "src/matrix.mjs",
   "type": "module",
   "dependencies": {
+    "@matrix-org/olm": "^3.2.15",
     "image-size": "^1.0.2",
     "matrix-js-sdk": "^37.4.0",
     "node-localstorage": "^3.0.5",

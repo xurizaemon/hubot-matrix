@@ -48,9 +48,10 @@ describe('if no authentication token is available in the local storage', () => {
 
     matrixSession.createClient(jest.fn(() => {
       expect(localStorageMock.getItem('access_token')).toEqual('someAccessToken')
-      expect(localStorageMock.getItem('bot_name')).toEqual('juliasbot')
       expect(localStorageMock.getItem('user_id')).toEqual('someUserId')
       expect(localStorageMock.getItem('device_id')).toEqual('someDeviceId')
+      // Remove?
+      expect(localStorageMock.getItem('bot_name')).toEqual('juliasbot')
       done()
     }))
   })
@@ -64,9 +65,10 @@ test('no client login if authentication token is available in the local storage'
 
   const localStorageMock = new LocalStorageMock()
   localStorageMock.setItem('access_token', 'someAccessToken')
-  localStorageMock.setItem('bot_name', 'someBotName')
   localStorageMock.setItem('user_id', 'someUserId')
   localStorageMock.setItem('device_id', 'someDeviceId')
+  // Remove?
+  localStorageMock.setItem('bot_name', 'someBotName')
 
   const matrixSession = new MatrixSession('juliasbot', 'http://server:8080', 'julia',
     '123', logger, localStorageMock)
